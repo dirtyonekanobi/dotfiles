@@ -1,3 +1,31 @@
 ### SHELL ALIASES
 
 alias cfg='$(which git) --git-dir=$HOME/.cfg --work-tree=$HOME'
+# Collection of Common Shell ALIASES
+
+CODEDIR='/media/shared/projects'
+VIMDIR='~/.vim'
+alias projects='cd $CODEDIR'
+
+# git aliases
+
+#git push origin master
+alias gpom='f(){
+    git add . && git commit -m "$1" && git push origin master
+}; f'
+
+# git push current branch
+alias gpcb='f(){
+    git add . && git commit -m "$1" && git push origin "$(git rev-parse --abbrev-ref HEAD)" 
+}; f'
+
+# Start new TMUX session
+
+alias tmn='f(){
+    tmux new -s $1 
+}; f'
+
+alias bload='source ~/.bashrc'
+alias zload='source ~/.zshrc'
+alias vload='source $VIMDIR/.vimrc'
+
