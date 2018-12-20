@@ -159,7 +159,7 @@ install_dotfiles(){
             cp "$dotfiles_dir/.tmux.conf" $HOME/.tmux.conf
         fi
 
-        if [-e "$dotfiles_dir/.shell_aliases" ]; then
+        if [ -e "$dotfiles_dir/.shell_aliases" ]; then
             pretty_echo "Setting up shell aliases"
             cp "$dotfiles_dir/.shell_aliases" $HOME/.shell_aliases
         fi
