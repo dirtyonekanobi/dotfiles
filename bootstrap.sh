@@ -134,7 +134,7 @@ install_powerline_fonts(){
     font_dir="$TEMPDIR/powerlinefonts"
     pretty_echo "Installing Powerline Fonts"
     git clone https://github.com/powerline/fonts.git --depth=1 "$font_dir"
-    pushd "$font_dir/fonts"
+    pushd "$font_dir"
         sh ./install.sh
     popd
     rm -rf $font_dir
