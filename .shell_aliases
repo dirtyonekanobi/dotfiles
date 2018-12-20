@@ -3,7 +3,7 @@
 alias cfg='$(which git) --git-dir=$HOME/.cfg --work-tree=$HOME'
 # Collection of Common Shell ALIASES
 
-CODEDIR='/media/shared/projects'
+CODEDIR='$HOME/projects'
 VIMDIR='~/.vim'
 alias projects='cd $CODEDIR'
 
