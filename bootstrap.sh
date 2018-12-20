@@ -122,11 +122,11 @@ brew cask install ${CASK_FONTS[@]}
 
 # UPGRADE PIP
 pretty_echo "Upgrading PIP"
-pip install -U pip
+pip3 install -U pip
 
 # Install Powerline & Fonts
 pretty_echo "Installing PIP Packages"
-pip install --user ${PIP_PACKAGES[@]}
+pip3 install --user ${PIP_PACKAGES[@]}
 
 # Install Fonts
 install_powerline_fonts(){
