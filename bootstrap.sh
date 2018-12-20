@@ -66,7 +66,6 @@ CASK_PACKAGES=(
     docker
     dropbox
     slack
-    gpgtools
     visual-studio-code
     zoomus
 )
