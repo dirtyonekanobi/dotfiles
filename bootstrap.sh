@@ -36,12 +36,12 @@ append_to_zshrc(){
 
 osname=$(uname)
 
-if ["$osname" != "Darwin"]; then
+if [ "$osname" != "Darwin"]; then
   pretty_echo "Bootstrap only supports Mac for now. Exiting ..."
   exit 1
 fi
 
-if [! -d "Library/Developer/CommandLineTools"]; then
+if [ ! -d "Library/Developer/CommandLineTools"]; then
   pretty_echo "Command Line Tools must be installed first. Run 'xcode-select --install' first"
   exit 1
 fi
@@ -108,7 +108,7 @@ brew update --force
 
 pretty_echo "Installing Homebrew Cask & Fonts"
 brew tap caskroom/cask
-brew tap hombrew/cask-fonts
+brew tap homebrew/cask-fonts
 
 # INSTALL Brew Packages
 pretty_echo "Installing Homebrew Packages"
