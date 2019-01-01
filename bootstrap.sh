@@ -179,6 +179,18 @@ install_dotfiles(){
 pretty_echo "Setting up Dotfiles"
 install_dotfiles
 
+# Setup virtualenvs
+create_venvs(){
+    local venvs_dir;
+    venvs_dir="$HOME/.envs"
+    if [ ! -d "$venvs_dir" ]; then
+            pretty_echo "Adding Virtualenvs Directory"
+            mkdir -p $venvs_dir
+    fi
+}
+
+create_venvs
+
 # UPDATE SHELL
 update_shell() {
   local shell_path;
