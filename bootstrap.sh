@@ -7,6 +7,7 @@ set -e -x
 
 TEMPDIR="/tmp/setup"
 DOTFILES_REPO="https://github.com/dirtyonekanobi/dotfiles"
+VIRTUALENV_DIR="$HOME/.envs"
 
 pretty_echo(){
     local fmt="$1"; shift
@@ -182,7 +183,7 @@ install_dotfiles
 # Setup virtualenvs
 create_venvs(){
     local venvs_dir;
-    venvs_dir="$HOME/.envs"
+    venvs_dir="$VIRTUALENV_DIR"
     if [ ! -d "$venvs_dir" ]; then
             pretty_echo "Adding Virtualenvs Directory"
             mkdir -p $venvs_dir
@@ -190,6 +191,11 @@ create_venvs(){
 }
 
 create_venvs
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export WORKON_HOME=$VIRTUALENV_DIR 1'
+append_to_zshrc 'source /usr/local/bin/virtualenvwrapper.sh'
+
 
 # UPDATE SHELL
 update_shell() {
