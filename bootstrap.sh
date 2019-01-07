@@ -60,6 +60,7 @@ BREW_PACKAGES=(
     bash-completion
     docker-completion
     docker-compose-completion
+    awscli
 ) 
 
 CASK_PACKAGES=(
