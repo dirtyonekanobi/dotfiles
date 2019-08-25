@@ -2,12 +2,13 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/$USER/.oh-my-zsh
+  export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 ZSH_THEME="gnzh"
+#ZSH_THEME="agnoster"
 DEFAULT_USER=$USER
 
 # Set list of themes to load
@@ -96,3 +97,14 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 source ~/.shell_aliases
+export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+export WORKON_HOME=$HOME/.envs
+source /usr/local/bin/virtualenvwrapper.sh
+export GOPATH=$HOME/go
+export GOBIN=$GOPATH/bin
+
+export PATH=$GOBIN:$PATH
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export RUST_SRC_PATH=~/.rustup/toolchains/stable-x86_64-apple-darwin
