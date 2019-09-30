@@ -3,10 +3,14 @@
 alias cfg='$(which git) --git-dir=$HOME/.cfg --work-tree=$HOME'
 # Collection of Common Shell ALIASES
 
-CODEDIR='$HOME/projects'
+CODEDIR="$HOME/projects"
 VIMDIR='~/.vim'
 alias projects='cd $CODEDIR'
+alias pro='cd $CODEDIR'
 
+# take the NVIM plunge :)
+
+alias vim='nvim'
 # git aliases
 
 #git push origin master
@@ -19,13 +23,34 @@ alias gpcb='f(){
     git add . && git commit -m "$1" && git push origin "$(git rev-parse --abbrev-ref HEAD)" 
 }; f'
 
+# git/goto root directory
+function grd {
+  cd $(git rev-parse --show-toplevel)
+}
 # Start new TMUX session
 
 alias tmn='f(){
     tmux new -s $1 
 }; f'
 
+alias tma='f(){
+  tmux attach-session -t $1
+}; f'
 alias bload='source ~/.bashrc'
 alias zload='source ~/.zshrc'
 alias vload='source $VIMDIR/.vimrc'
 
+## Functions
+#
+function stop-all {
+  docker stop $(docker ps -aq)
+}
+
+# CD & LS 
+function cdl {
+  cd "$1" && ls
+}
+
+## PRIVATE SHELL 
+#
+source ~/.private_shell_aliases

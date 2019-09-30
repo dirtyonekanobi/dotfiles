@@ -7,6 +7,7 @@ set -e -x
 
 TEMPDIR="/tmp/setup"
 DOTFILES_REPO="https://github.com/dirtyonekanobi/dotfiles"
+VIRTUALENV_DIR="$HOME/.envs"
 
 pretty_echo(){
     local fmt="$1"; shift
@@ -59,6 +60,7 @@ BREW_PACKAGES=(
     bash-completion
     docker-completion
     docker-compose-completion
+    awscli
 ) 
 
 CASK_PACKAGES=(
@@ -122,19 +124,21 @@ brew cask install ${CASK_FONTS[@]}
 
 # UPGRADE PIP
 pretty_echo "Upgrading PIP"
-pip install -U pip
+pip3 install -U pip
 
 # Install Powerline & Fonts
 pretty_echo "Installing PIP Packages"
-pip install --user ${PIP_PACKAGES[@]}
+pip3 install --user ${PIP_PACKAGES[@]}
 
 # Install Fonts
 install_powerline_fonts(){
     local font_dir;
     font_dir="$TEMPDIR/powerlinefonts"
     pretty_echo "Installing Powerline Fonts"
-    git clone https://github.com/powerline/fonts.git --depth=1 "$font_dir"
-    pushd "$font_dir/fonts"
+    if [ ! -d "$font_dir" ]; then
+      git clone https://github.com/powerline/fonts.git --depth=1 "$font_dir"
+    fi
+    pushd "$font_dir"
         sh ./install.sh
     popd
     rm -rf $font_dir
@@ -157,7 +161,7 @@ install_dotfiles(){
             cp "$dotfiles_dir/.tmux.conf" $HOME/.tmux.conf
         fi
 
-        if [-e "$dotfiles_dir/.shell_aliases" ]; then
+        if [ -e "$dotfiles_dir/.shell_aliases" ]; then
             pretty_echo "Setting up shell aliases"
             cp "$dotfiles_dir/.shell_aliases" $HOME/.shell_aliases
         fi
@@ -176,6 +180,23 @@ install_dotfiles(){
 
 pretty_echo "Setting up Dotfiles"
 install_dotfiles
+
+# Setup virtualenvs
+create_venvs(){
+    local venvs_dir;
+    venvs_dir="$VIRTUALENV_DIR"
+    if [ ! -d "$venvs_dir" ]; then
+            pretty_echo "Adding Virtualenvs Directory"
+            mkdir -p $venvs_dir
+    fi
+}
+
+create_venvs
+
+# shellcheck disable=SC2016
+append_to_zshrc 'export WORKON_HOME=$VIRTUALENV_DIR 1'
+append_to_zshrc 'source /usr/local/bin/virtualenvwrapper.sh'
+
 
 # UPDATE SHELL
 update_shell() {
