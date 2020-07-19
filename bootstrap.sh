@@ -50,22 +50,18 @@ fi
 BREW_PACKAGES=(
     zsh
     git
-    python
     python3
     wget
     tree
-    vim
     tmux
-    terraform
+    fzf
     bash-completion
-    docker-completion
-    docker-compose-completion
-    awscli
+    neovim
+    golang
 ) 
 
 CASK_PACKAGES=(
     iterm2
-    docker
     dropbox
     slack
     visual-studio-code
@@ -81,10 +77,9 @@ CASK_FONTS=(
 )
 
 PIP_PACKAGES=(
-    ansible
+    neovim
     virtualenv
     virtualenvwrapper
-    powerline-status
 )
 # Make Install Dir
 mkdir -p $TEMPDIR
@@ -170,7 +165,7 @@ install_dotfiles(){
         if [ ! -d $HOME/.vim ]; then
             mkdir -p $HOME/.vim
         fi
-        cp -a "$dotfiles_dir/vim/." "$HOME/.vim"
+        cp -a "$dotfiles_dir/.vim/." "$HOME/.vim"
 
         if [ -e "$dotfiles_dir/.zshrc" ]; then
             pretty_echo "Setting up ZSH"
@@ -192,6 +187,14 @@ create_venvs(){
 }
 
 create_venvs
+
+install_rust(){
+    pretty_echo "Installing RUST ..."
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+}
+
+install_rust
+append_to_zshrc 'export PATH="~/.cargo/bin:$PATH"' 1
 
 # shellcheck disable=SC2016
 append_to_zshrc 'export WORKON_HOME=$VIRTUALENV_DIR 1'

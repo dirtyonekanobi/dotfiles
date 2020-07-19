@@ -28,17 +28,18 @@ Plug 'elzr/vim-json'
 Plug 'scrooloose/syntastic'
 Plug 'honza/vim-snippets'
 Plug 'townk/vim-autoclose'
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'arcticicestudio/nord-vim'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'junegunn/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'hashivim/vim-terraform'
-"Plug 'valloric/youcompleteme'
 
 " Ansible Stuff
 Plug 'pearofducks/ansible-vim'
 
 " Python Plugins
 Plug 'nvie/vim-flake8'
-Plug 'vim-scripts/Pydiction'
 Plug 'vim-scripts/indentpython.vim'
 
 " tpope stuff -- awesomness
@@ -46,6 +47,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vividchalk'
 
+" Writing/Prose
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 
 " Golang Stuff
 Plug 'fatih/vim-go'
@@ -64,6 +67,7 @@ Plug 'jacoborus/tender.vim', {'as': 'tender'}
 Plug 'dirtyonekanobi/cisco.vim'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'NLKNguyen/papercolor-theme', {'as': 'papercolor'}
+Plug 'kyoz/purify', { 'rtp': 'vim' }
 if !has('nvim')
   Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
   Plug 'powerline/powerline-fonts'
@@ -90,9 +94,10 @@ set noswapfile
 
 
 " ColorScheme Changes
-set background=light
+set background=dark
 "silent! colorscheme dracula
-color space_vim_theme
+"color space_vim_theme
+colorscheme solarized
 set ruler
 set laststatus=2
 
@@ -220,19 +225,19 @@ endif
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " --- rust specific --- "
-"#if has('nvim')
-"#  let g:LanguageClient_serverCommands = {
-"#      \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
-"#      \ }
-"#  
-"  " Automatically start language servers.
-"  let g:LanguageClient_autoStart = 1
-"  
-"  " Maps K to hover, gd to goto definition, F2 to rename
-"  nnoremap <silent> K :call LanguageClient_textDocument_hover()
-"  nnoremap <silent> gd :call LanguageClient_textDocument_definition()
-"  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()
-"endif 
+if has('nvim')
+  let g:LanguageClient_serverCommands = {
+      \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+      \ }
+  
+  " Automatically start language servers.
+  let g:LanguageClient_autoStart = 1
+  
+  " Maps K to hover, gd to goto definition, F2 to rename
+  nnoremap <silent> K :call LanguageClient_textDocument_hover()
+  nnoremap <silent> gd :call LanguageClient_textDocument_definition()
+  nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()
+endif 
 
 autocmd BufReadPost *.rs setlocal filetype=rust
 
@@ -250,16 +255,17 @@ if has('nvim')
       "set signcolumn=yes
       " Use tab for trigger completion with characters ahead and navigate.
       " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+      function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
+      endfunction
+
       inoremap <silent><expr> <TAB>
             \ pumvisible() ? "\<C-n>" :
             \ <SID>check_back_space() ? "\<TAB>" :
             \ coc#refresh()
       inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
       
-      function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-      endfunction
       
       " Use <c-space> to trigger completion.
       inoremap <silent><expr> <c-space> coc#refresh()
@@ -351,3 +357,5 @@ if has('nvim')
       " Resume latest coc list
       nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 endif
+
+nnoremap <C-p> :GFiles<CR>

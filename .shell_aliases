@@ -51,6 +51,10 @@ function cdl {
   cd "$1" && ls
 }
 
+alias hg='history | grep $1'
+
+alias prp='poetry run python "$1"'
+
 ## PRIVATE SHELL 
 #
 source ~/.private_shell_aliases

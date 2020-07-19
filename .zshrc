@@ -63,6 +63,7 @@ DEFAULT_USER=$USER
 plugins=(
   git
   python
+  zsh-autosuggestions
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -105,6 +106,15 @@ export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
 
 export PATH=$GOBIN:$PATH
-
+export PATH="$HOME/.poetry/bin:$PATH"
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
 export RUST_SRC_PATH=~/.rustup/toolchains/stable-x86_64-apple-darwin
+export POETRY_VIRTUALENVS_PATH=$WORKON_HOME
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/darynjohnson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/darynjohnson/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/darynjohnson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/darynjohnson/google-cloud-sdk/completion.zsh.inc'; fi
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
