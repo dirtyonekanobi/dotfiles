@@ -8,6 +8,7 @@ set -e -x
 TEMPDIR="/tmp/setup"
 DOTFILES_REPO="https://github.com/dirtyonekanobi/dotfiles"
 VIRTUALENV_DIR="$HOME/.envs"
+SCREENSHOTS_DIR="$HOME"
 
 pretty_echo(){
     local fmt="$1"; shift
@@ -54,10 +55,14 @@ BREW_PACKAGES=(
     wget
     tree
     tmux
+    ripgrep
     fzf
     bash-completion
     neovim
     golang
+    starship
+    zsh-completions
+    zsh-syntax-highlighting
 ) 
 
 CASK_PACKAGES=(
@@ -66,6 +71,7 @@ CASK_PACKAGES=(
     slack
     visual-studio-code
     zoomus
+    kitty
 )
 
 CASK_FONTS=(
@@ -103,19 +109,19 @@ pretty_echo "Updating Homebrew formulae ..."
 brew update --force
 
 pretty_echo "Installing Homebrew Cask & Fonts"
-brew tap caskroom/cask
+#brew tap cask-cask
 brew tap homebrew/cask-fonts
 
 # INSTALL Brew Packages
 pretty_echo "Installing Homebrew Packages"
-brew install ${BREW_PACKAGES[@]}
+#brew install ${BREW_PACKAGES[@]}
 
 # INSTALL CASK PACKAGES
 pretty_echo "Installing CASK Packages"
-brew cask install ${CASK_PACKAGES[@]}
+#brew cask install ${CASK_PACKAGES[@]}
 
 # INSTALL CASK FONTS
-brew cask install ${CASK_FONTS[@]}
+#brew cask install ${CASK_FONTS[@]}
 
 # UPGRADE PIP
 pretty_echo "Upgrading PIP"
@@ -141,15 +147,13 @@ install_powerline_fonts(){
 
 install_powerline_fonts
 
-# Install OH-MY-ZSH
-pretty_echo "Installing Oh-my-zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # GET DOTFILES
 install_dotfiles(){
     local dotfiles_dir;
-    dotfiles_dir="$TEMPDIR/dotfiles"
-    git clone "$DOTFILES_REPO" "$dotfiles_dir"
+    dotfiles_dir="./"
+    #dotfiles_dir="$TEMPDIR/dotfiles"
+   # git clone "$DOTFILES_REPO" "$dotfiles_dir"
     pushd "$dotfiles_dir"
         if [ -e "$dotfiles_dir/.tmux.conf" ]; then
             pretty_echo "Setting up tmux.conf"
@@ -175,6 +179,10 @@ install_dotfiles(){
 
 pretty_echo "Setting up Dotfiles"
 install_dotfiles
+
+# Install OH-MY-ZSH
+#pretty_echo "Installing Oh-my-zsh"
+#sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
 # Setup virtualenvs
 create_venvs(){
@@ -226,5 +234,13 @@ case "$SHELL" in
 esac
 
 
-# shellcheck disable=SC2016
-append_to_zshrc 'export PATH="/usr/local/bin:$PATH"' 1
+pretty_echo "COMPLETED"
+
+mkdir -p ~/screenshots 
+defaults write com.apple.screencapture location ~/screenshots && killall SystemUIServer
+defaults write NSGlobalDomain _HIHideMenuBar -bool true
+defaults write com.apple.finder AppleShowAllFiles YES
+chflags nohidden ~/Library
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+git config --global credential.helper osxkeychain
